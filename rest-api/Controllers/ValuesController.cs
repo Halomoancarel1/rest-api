@@ -11,54 +11,163 @@ namespace rest_api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private sekolahContext _context;
+        private jobContext _context;
 
-        public ValuesController(sekolahContext context)
+        public ValuesController(jobContext context)
         {
             this._context = context;
         }
 
 
-        // GET api/values
+        // Get All Todo’s
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            var students = _context.Siswa.ToList();
+            var students = _context.Task.ToList();
             return Ok(students);
-            //return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
+        // Get Specific Todo
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            var studentById = (from a in _context.Siswa
+            var studentById = (from a in _context.Task
                                where a.Id == id
-                               select new Siswa
+                               select new jobTask
                                {
-                                   Nama = a.Nama,
-                                   Alamat = a.Alamat
+                                   Id = a.Id,
+                                   Title = a.Title,
+                                   Description = a.Description,
+                                   IsComplete = a.IsComplete,
+                                   CreatedDate = a.CreatedDate,
+                                   Percentage = a.Percentage
                                }).FirstOrDefault();
             return Ok(studentById);
         }
 
-        // POST api/values
+        //Get Incoming ToDo
+        [HttpGet("{startDate}/{endDate}")]
+        public ActionResult<string> GetByDate(DateTime startDate, DateTime endDate)
+        {
+            var studentByDate = (from a in _context.Task
+                               where (DateTime.Parse(a.CreatedDate.ToString("yyyy-MM-dd")) >= startDate) && (DateTime.Parse(a.CreatedDate.ToString("yyyy-MM-dd")) <= endDate)
+                               select new jobTask
+                               {
+                                   Id = a.Id,
+                                   Title = a.Title,
+                                   Description = a.Description,
+                                   IsComplete = a.IsComplete,
+                                   CreatedDate = a.CreatedDate,
+                                   Percentage = a.Percentage
+                               }).ToList();
+            return Ok(studentByDate);
+        }
+
+        // Create Todo
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] jobTask model)
         {
-
+            model.CreatedDate = DateTime.Now;
+            _context.Add(model);
+            _context.SaveChanges();
         }
 
-        // PUT api/values/5
+        // Update Todo
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] jobTask model)
         {
+            var single = (from a in _context.Task
+                          where a.Id == id
+                          select new jobTask
+                          {
+                              Id = a.Id,
+                              Title = a.Title,
+                              Description = a.Description,
+                              IsComplete = a.IsComplete,
+                              CreatedDate = a.CreatedDate,
+                              Percentage = a.Percentage
+                          }).FirstOrDefault();
+            if(single != null)
+            {
+                single.IsComplete = model.IsComplete;
+                single.Title = model.Title;
+                single.Description = model.Description;
+                single.Percentage = model.Percentage;
+            }
+            _context.Update(single);
+            _context.SaveChanges();
+
         }
 
-        // DELETE api/values/5
+        // Delete Todo
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var single = (from a in _context.Task
+                          where a.Id == id
+                          select new jobTask 
+                          {
+                              Id = a.Id,
+                          }).FirstOrDefault();
+
+            _context.Task.Remove(single);
+            _context.SaveChanges();
+        }
+
+        //Mark Todo as Done
+        [HttpPut("{id}/{status}")]
+        public void Put(int id, bool status)
+        {
+            var single = (from a in _context.Task
+                          where a.Id == id
+                          select new jobTask
+                          {
+                              Id = a.Id,
+                              Title = a.Title,
+                              Description = a.Description,
+                              IsComplete = a.IsComplete,
+                              CreatedDate = a.CreatedDate,
+                              Percentage = a.Percentage
+                          }).FirstOrDefault();
+            if (single != null)
+            {
+                single.IsComplete = status;
+            }
+            _context.Update(single);
+            _context.SaveChanges();
+
+        }
+        //Set Todo percent complete
+        [HttpPut("{id}/{percentage}")]
+        public void updateData(int id, decimal percentage)
+        {
+            var single = (from a in _context.Task
+                          where a.Id == id
+                          select new jobTask
+                          {
+                              Id = a.Id,
+                              Title = a.Title,
+                              Description = a.Description,
+                              IsComplete = a.IsComplete,
+                              CreatedDate = a.CreatedDate,
+                              Percentage = a.Percentage
+                          }).FirstOrDefault();
+            if (single != null)
+            {
+                if(percentage == 100)
+                {
+                    single.IsComplete = true;
+                    single.Percentage = percentage;
+                }
+                else
+                {
+                    single.Percentage = percentage;
+                }
+                
+            }
+            _context.Update(single);
+            _context.SaveChanges();
+
         }
     }
 }

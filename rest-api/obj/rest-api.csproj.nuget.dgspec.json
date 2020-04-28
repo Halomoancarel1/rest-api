@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Carel\\rest-api\\rest-api\\rest-api.csproj": {}
+    "C:\\Users\\Angel\\Documents\\GitHub\\rest-api\\rest-api\\rest-api\\rest-api.csproj": {}
   },
   "projects": {
-    "D:\\Carel\\rest-api\\rest-api\\rest-api.csproj": {
+    "C:\\Users\\Angel\\Documents\\GitHub\\rest-api\\rest-api\\rest-api\\rest-api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Carel\\rest-api\\rest-api\\rest-api.csproj",
+        "projectUniqueName": "C:\\Users\\Angel\\Documents\\GitHub\\rest-api\\rest-api\\rest-api\\rest-api.csproj",
         "projectName": "rest-api",
-        "projectPath": "D:\\Carel\\rest-api\\rest-api\\rest-api.csproj",
+        "projectPath": "C:\\Users\\Angel\\Documents\\GitHub\\rest-api\\rest-api\\rest-api\\rest-api.csproj",
         "packagesPath": "C:\\Users\\Angel\\.nuget\\packages\\",
-        "outputPath": "D:\\Carel\\rest-api\\rest-api\\obj\\",
+        "outputPath": "C:\\Users\\Angel\\Documents\\GitHub\\rest-api\\rest-api\\rest-api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Angel\\AppData\\Roaming\\NuGet\\NuGet.Config",

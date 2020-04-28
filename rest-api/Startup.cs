@@ -29,7 +29,7 @@ namespace rest_api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<sekolahContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<jobContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
